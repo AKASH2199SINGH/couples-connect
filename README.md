@@ -2,7 +2,7 @@ Couple's Connect: A WebRTC Video Chat Application
 
 Couple's Connect is a modern, web-based video communication platform designed specifically for couples. It provides an intimate and feature-rich environment for partners to connect through a high-quality video call, enhanced with guided conversation features.
 
-[Link to Live Demo] (<- Replace with your public Render URL)
+Live Demo: https://couples-connect.onrender.com/
 
 ✨ Core Features
 
