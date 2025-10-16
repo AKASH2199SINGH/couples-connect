@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couple's Connect</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <div id="call-container">
+        <div id="notification" class="hidden"></div>
+
+        <div id="idle-screen">
+            <div id="clock">10:10:10 PM</div>
+            <h1>Couple's Connect</h1>
+            <p>Waiting to start a call...</p>
+        </div>
+
+        <div id="remoteVideoFrame" class="video-frame">
+            <video id="remoteVideo" autoplay playsinline></video>
+        </div>
+        <div id="localVideoFrame" class="video-frame">
+            <video id="localVideo" autoplay playsinline muted></video>
+        </div>
+
+        <div id="question-box" class="hidden">
+            <p id="question-text"></p>
+            <button id="nextQuestionButton">Next Question</button>
+        </div>
+
+        <div id="controls-bar">
+            <button id="callButton" class="control-button" disabled>📷 Loading Camera...</button>
+            <button id="micButton" class="control-button hidden">🎤 Mute</button>
+            <button id="cameraButton" class="control-button hidden">📹 Cam Off</button>
+            <button id="counselingButton" class="control-button hidden">💬 Questions</button>
+            <button id="endCallButton" class="control-button end-call hidden">📞 End Call</button>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
+
