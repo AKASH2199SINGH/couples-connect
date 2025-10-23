@@ -1,216 +1,370 @@
-/* static/style.css */
+/* --- Global Styles --- */
 :root {
-  --primary-color: #818cf8;
-  --primary-hover: #6366f1;
-  --danger-color: #f87171;
-  --danger-hover: #ef4444;
-  --dark-bg: #111827;
-  --light-bg: #1f2937;
-  --text-color: #f9fafb;
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --danger-color: #dc3545;
+    --danger-hover: #c82333;
+    --dark-bg: #121212;
+    --medium-bg: #1a1a1a;
+    --light-bg: #2a2a2a;
+    --text-light: #f0f0f0;
+    --text-medium: #a0a0a0;
+    --frame-gradient: linear-gradient(135deg, #007bff, #8a2be2);
 }
+
 body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background-color: var(--dark-bg);
-  color: var(--text-color);
-  overflow: hidden;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+    overflow: hidden;
 }
+
+/* --- Home Screen Styles --- */
+#home-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    background: radial-gradient(circle, var(--medium-bg) 0%, var(--dark-bg) 100%);
+}
+
+.home-content h1 {
+    font-size: 3.5rem;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.home-content p {
+    font-size: 1.2rem;
+    color: var(--text-medium);
+    margin-bottom: 40px;
+}
+
+#create-meeting-btn {
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+#create-meeting-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+
+/* --- Call Container & Video Frames --- */
 #call-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--dark-bg);
 }
-#idle-screen {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-  transition: opacity 0.5s ease-in-out;
-}
-#clock {
-  font-size: 5rem;
-  font-weight: 200;
-  letter-spacing: 5px;
-}
-#idle-screen h1 {
-  font-weight: 400;
-  margin-top: 10px;
-}
-#idle-screen p {
-  font-size: 1.2rem;
-  color: #a0aec0;
-}
+
 .video-frame {
-  position: absolute;
-  background-color: #000;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 2px solid transparent;
-  background-clip: padding-box;
+    position: absolute;
+    background-color: var(--medium-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    /* Animated Gradient Frame */
+    padding: 4px;
+    background: var(--frame-gradient);
+    background-size: 200% 200%;
+    animation: gradient-flow 4s ease infinite;
 }
-.video-frame::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  margin: -2px;
-  border-radius: inherit;
-  background: linear-gradient(45deg, var(--primary-color), #f472b6);
+
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
-.video-frame video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
+#main-video-frame {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    top: 20px;
+    left: 20px;
 }
-#remoteVideoFrame {
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
-  cursor: pointer;
+
+.video-frame.pip {
+    width: 22%;
+    max-width: 300px;
+    min-width: 150px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    bottom: 110px;
+    right: 30px;
+    cursor: pointer;
+    z-index: 100;
 }
-#localVideoFrame {
-  width: 20%;
-  max-width: 280px;
-  height: auto;
-  aspect-ratio: 16/9;
-  bottom: 100px;
-  right: 30px;
-  transform: scaleX(-1);
-  cursor: pointer;
-  z-index: 15;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+
+/* Swapped states */
+#main-video-frame.pip {
+    width: 22%;
+    max-width: 300px;
+    min-width: 150px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    bottom: 110px;
+    right: 30px;
+    top: auto;
+    left: auto;
+    cursor: pointer;
+    z-index: 100;
 }
-#call-container.local-is-main #localVideoFrame {
-  width: 100%;
-  max-width: none;
-  height: 100%;
-  bottom: 0;
-  right: 0;
-  border-radius: 0;
-  transform: scaleX(-1);
-  cursor: pointer;
+
+.video-frame.pip#local-video-frame {
+    top: auto;
+    left: auto;
 }
-#call-container.local-is-main #remoteVideoFrame {
-  width: 20%;
-  max-width: 280px;
-  height: auto;
-  aspect-ratio: 16/9;
-  bottom: 100px;
-  right: 30px;
-  cursor: pointer;
+
+#local-video-frame.main {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    top: 20px;
+    left: 20px;
+    bottom: auto;
+    right: auto;
+    cursor: default;
+    z-index: 10;
 }
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px; /* Inner radius */
+    display: block;
+}
+
+#localVideo {
+    transform: scaleX(-1); /* Mirror effect */
+}
+
+/* --- Idle Screen (Waiting Room) --- */
+#idle-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, var(--medium-bg) 0%, var(--dark-bg) 100%);
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+#idle-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#clock {
+    font-size: 5rem;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+#idle-screen h2 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+#idle-screen p {
+    font-size: 1.2rem;
+    color: var(--text-medium);
+    margin-top: 10px;
+}
+
+#copy-link-btn {
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 12px 25px;
+    margin-top: 30px;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    background-color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#copy-link-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+/* --- Loader Animation --- */
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-top: 30px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* --- Controls Bar --- */
 #controls-bar {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  z-index: 20;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 15px;
-  background-color: rgba(17, 24, 39, 0.7);
-  padding: 12px 20px;
-  border-radius: 50px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    background-color: rgba(42, 42, 42, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 12px 20px;
+    border-radius: 50px;
+    z-index: 110;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
+
 .control-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 25px;
-  border: none;
-  background-color: var(--light-bg);
-  color: var(--text-color);
-  transition: background-color 0.2s, transform 0.2s;
+    padding: 12px;
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--light-bg);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
 }
-.control-button:disabled {
-  background-color: #374151;
-  cursor: not-allowed;
-  transform: none;
-}
-.control-button:disabled:hover {
-  background-color: #374151;
-}
+
 .control-button:hover {
-  background-color: var(--primary-color);
-  transform: translateY(-2px);
+    background-color: #4a4a4a;
 }
-#callButton {
-  background-color: var(--primary-color);
+
+.control-button.end-call {
+    background-color: var(--danger-color);
 }
-#callButton:hover {
-  background-color: var(--primary-hover);
+.control-button.end-call:hover {
+    background-color: var(--danger-hover);
 }
-.end-call {
-  background-color: var(--danger-color);
+
+.control-button.active {
+    background-color: var(--primary-color);
 }
-.end-call:hover {
-  background-color: var(--danger-hover);
+.control-button.active:hover {
+    background-color: var(--primary-hover);
 }
+
+
+/* --- Question Box --- */
 #question-box {
-  position: absolute;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  max-width: 800px;
-  background-color: rgba(31, 41, 55, 0.8);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  z-index: 18;
+    position: absolute;
+    bottom: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 800px;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    z-index: 100;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+#question-turn {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin: 0;
+    text-transform: uppercase;
+}
+
 #question-text {
-  margin: 0;
-  font-size: 1.5em;
-  font-weight: 300;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 10px 0 0 0;
 }
-#nextQuestionButton {
-  margin-top: 15px;
-  padding: 8px 16px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 20px;
-  border: none;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-}
+
+/* --- Notification Banner --- */
 #notification {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--light-bg);
-  color: var(--text-color);
-  padding: 12px 25px;
-  border-radius: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  z-index: 200;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  pointer-events: none;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    z-index: 1000;
+    font-weight: 500;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
+
 #notification.show {
-  opacity: 1;
+    opacity: 1;
 }
+
+/* --- Utility Classes --- */
 .hidden {
-  display: none;
+    display: none !important;
 }
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    #clock {
+        font-size: 3rem;
+    }
+    #idle-screen h2 {
+        font-size: 1.8rem;
+    }
+    .video-frame.pip, #main-video-frame.pip {
+        width: 35%;
+        bottom: 160px; /* Make space for controls */
+        right: 15px;
+    }
+    #controls-bar {
+        bottom: 20px;
+        gap: 10px;
+    }
+    .control-button {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+    #question-box {
+        width: 85%;
+        bottom: 150px; /* Position above controls */
+        padding: 15px;
+    }
+    #question-text {
+        font-size: 1.1rem;
+    }
+}
+

@@ -5,36 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Couple's Connect</title>
     <link rel="stylesheet" href="/static/style.css">
+    <!-- Heart Icon for browser tab -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
 </head>
 <body>
 
-    <div id="call-container">
-        <div id="notification" class="hidden"></div>
+    <!-- Notification Banner (hidden by default) -->
+    <div id="notification" class="hidden"></div>
 
-        <div id="idle-screen">
-            <div id="clock">10:10:10 PM</div>
-            <h1>Couple's Connect</h1>
-            <p>Waiting to start a call...</p>
+    <!-- Home Screen (Visible on load) -->
+    <div id="home-screen">
+        <div class="home-content">
+            <h1 id="home-title">Couple's Connect</h1>
+            <p>Connect with your partner, one call at a time.</p>
+            <button id="create-meeting-btn">🚀 Create New Meeting</button>
         </div>
+    </div>
 
-        <div id="remoteVideoFrame" class="video-frame">
+    <!-- Call Container (Hidden on load) -->
+    <div id="call-container" class="hidden">
+
+        <!-- Main Video Frame (Partner) -->
+        <div id="main-video-frame" class="video-frame">
             <video id="remoteVideo" autoplay playsinline></video>
+            <!-- Idle Screen (Visible until partner joins) -->
+            <div id="idle-screen">
+                <div class="clock-container">
+                    <div id="clock">11:24 AM</div>
+                </div>
+                <h2>Couple's Connect</h2>
+                <p>Waiting for your partner to join...</p>
+                <div class="loader"></div>
+                <button id="copy-link-btn">🔗 Copy Invite Link</button>
+            </div>
         </div>
-        <div id="localVideoFrame" class="video-frame">
+
+        <!-- Picture-in-Picture Frame (You) -->
+        <div id="local-video-frame" class="video-frame pip">
             <video id="localVideo" autoplay playsinline muted></video>
         </div>
 
+        <!-- Question Box (Hidden by default) -->
         <div id="question-box" class="hidden">
-            <p id="question-text"></p>
-            <button id="nextQuestionButton">Next Question</button>
+            <p id="question-turn"></p>
+            <h3 id="question-text"></h3>
         </div>
 
+        <!-- Controls Bar -->
         <div id="controls-bar">
-            <button id="callButton" class="control-button" disabled>📷 Loading Camera...</button>
-            <button id="micButton" class="control-button hidden">🎤 Mute</button>
-            <button id="cameraButton" class="control-button hidden">📹 Cam Off</button>
-            <button id="counselingButton" class="control-button hidden">💬 Questions</button>
-            <button id="endCallButton" class="control-button end-call hidden">📞 End Call</button>
+            <button id="micButton" class="control-button">🎤 Mute</button>
+            <button id="cameraButton" class="control-button">📹 Cam Off</button>
+            <button id="questionsButton" class="control-button">💬 Questions</button>
+            <button id="endCallButton" class="control-button end-call">📞 End Call</button>
         </div>
     </div>
 

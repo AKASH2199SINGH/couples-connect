@@ -1,54 +1,32 @@
-# main.py
-
-import asyncio
-import json
-from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-from typing import List
+import uvicorn
 
+# Apne video chat module ko import karein
+from video_chat_module import router as video_chat_router
+
+# Apna main FastAPI app banayein
 app = FastAPI()
 
+# --- Video Module Ko Jodein ---
+# Apne video router ko main app mein include karein
+app.include_router(video_chat_router)
+
+# Video module ke liye static files (CSS, JS) ko mount karein
 app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
 
-class ConnectionManager:
-    """Manages active WebSocket connections."""
-    def __init__(self):
-        self.active_connections: List[WebSocket] = []
 
-    async def connect(self, websocket: WebSocket):
-        """Accepts a new WebSocket connection."""
-        await websocket.accept()
-        self.active_connections.append(websocket)
+# --- Aapke Main Project ke Doosre Routes ---
+# Yahaan aap apne main project ke baaki routes (jaise login, dashboard) bana sakte hain
 
-    def disconnect(self, websocket: WebSocket):
-        """Removes a WebSocket connection."""
-        self.active_connections.remove(websocket)
+@app.get("/dashboard")
+async def get_dashboard():
+    return {"message": "Welcome to your main project's dashboard!"}
 
-    async def broadcast(self, message: str, sender: WebSocket):
-        """Broadcasts a message to all clients except the sender."""
-        for connection in self.active_connections:
-            if connection is not sender:
-                await connection.send_text(message)
+@app.get("/login")
+async def get_login():
+    return {"message": "This is your main login page."}
 
-manager = ConnectionManager()
-
-@app.get("/", response_class=HTMLResponse)
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    """The main WebSocket endpoint for signaling."""
-    await manager.connect(websocket)
-    try:
-        while True:
-            # Wait for a message from the client
-            data = await websocket.receive_text()
-            # Broadcast the message to all other clients
-            await manager.broadcast(data, websocket)
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
-        print("A client disconnected.")
+# --- Server Run Karein ---
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
